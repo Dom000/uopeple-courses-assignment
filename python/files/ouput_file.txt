@@ -1,0 +1,4 @@
+{
+'Fruits': ['Banana', 'Guava', 'Waterlemon', 'Apple'],
+'Vegetables': ['Cucumber', 'Carrot']
+}

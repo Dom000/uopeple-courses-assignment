@@ -1,0 +1,8 @@
+{
+"Banana":"Fruits",
+"Cucumber":"Vegetables",
+"Guava":"Fruits",
+"Waterlemon":"Fruits",
+"Apple":"Fruits",
+"Carrot":"Vegetables"
+}
