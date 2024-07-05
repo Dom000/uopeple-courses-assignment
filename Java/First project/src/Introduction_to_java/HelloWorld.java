@@ -1,3 +1,5 @@
+package Introduction_to_java;
+
 public class HelloWorld {
   public static int multiply(int a) {
       return a * 2;
