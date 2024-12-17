@@ -57,18 +57,17 @@ class Student {
 
 
 public class StudentManagementSystem extends JFrame {
-    private List<Student> students = new ArrayList<>();
+    private final List<Student> students = new ArrayList<>();
     private DefaultTableModel studentTableModel;
     private DefaultTableModel courseTableModel;
     private DefaultTableModel gradeTableModel;
+    private JPanel coursePanel;
 
     public StudentManagementSystem() {
-        // Set up the main window
         setTitle("Student Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
 
-        // Create the menu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu studentMenu = new JMenu("Student Management");
         JMenu courseMenu = new JMenu("Course Enrollment");
@@ -78,7 +77,6 @@ public class StudentManagementSystem extends JFrame {
         menuBar.add(gradeMenu);
         setJMenuBar(menuBar);
 
-        // Create the toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.add(new JButton("Add Student"));
         toolBar.add(new JButton("Update Student"));
@@ -87,30 +85,25 @@ public class StudentManagementSystem extends JFrame {
         toolBar.add(new JButton("Assign Grade"));
         add(toolBar, BorderLayout.NORTH);
 
-        // Create the tabbed pane
         JTabbedPane tabbedPane = new JTabbedPane();
-        JPanel studentPanel = createStudentPanel();
-        tabbedPane.addTab("Student Management", studentPanel);
-        tabbedPane.addTab("Course Enrollment", createCoursePanel());
+        coursePanel = createCoursePanel();
+        tabbedPane.addTab("Student Management", createStudentPanel(coursePanel));
+        tabbedPane.addTab("Course Enrollment", coursePanel);
         tabbedPane.addTab("Grade Management", createGradePanel());
         add(tabbedPane, BorderLayout.CENTER);
 
-        // Create the status bar
         JLabel statusBar = new JLabel("Ready");
         add(statusBar, BorderLayout.SOUTH);
     }
-
-    private JPanel createStudentPanel() {
+    private JPanel createStudentPanel(JPanel coursePanel) {
         JPanel panel = new JPanel(new BorderLayout());
 
-        // Create the table and model
         studentTableModel = new DefaultTableModel();
         studentTableModel.addColumn("Name");
         studentTableModel.addColumn("ID");
         JTable studentTable = new JTable(studentTableModel);
         panel.add(new JScrollPane(studentTable), BorderLayout.CENTER);
 
-        // Create the input fields
         JPanel inputPanel = new JPanel(new GridLayout(3, 2));
         JTextField nameField = new JTextField();
         JTextField idField = new JTextField();
@@ -125,6 +118,8 @@ public class StudentManagementSystem extends JFrame {
                 studentTableModel.addRow(new Object[]{name, id});
                 nameField.setText("");
                 idField.setText("");
+
+                updateStudentComboBox(getStudentComboBox(coursePanel));
             }
         });
         inputPanel.add(new JLabel("Name:"));
@@ -137,7 +132,6 @@ public class StudentManagementSystem extends JFrame {
 
         return panel;
     }
-
     private JPanel createCoursePanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -150,8 +144,26 @@ public class StudentManagementSystem extends JFrame {
 
         // Create the input fields
         JPanel inputPanel = new JPanel(new GridLayout(3, 2));
+
+        // Add list of students to the studentComboBox
         JComboBox<String> studentComboBox = new JComboBox<>();
+        updateStudentComboBox(studentComboBox);
+
+        for (Student student : students) {
+
+            System.out.println(student);
+            studentComboBox.addItem(student.getName());
+        }
+
+        // Add list of courses to the courseComboBox
         JComboBox<String> courseComboBox = new JComboBox<>();
+        courseComboBox.addItem("Introduction to Computer Science");
+        courseComboBox.addItem("Data Structures and Algorithms");
+        courseComboBox.addItem("Operating Systems");
+        courseComboBox.addItem("Computer Networks");
+
+        // Add more courses as needed
+
         JButton enrollButton = new JButton("Enroll Student");
         enrollButton.addActionListener(new ActionListener() {
             @Override
@@ -159,8 +171,12 @@ public class StudentManagementSystem extends JFrame {
                 String studentName = (String) studentComboBox.getSelectedItem();
                 String course = (String) courseComboBox.getSelectedItem();
                 courseTableModel.addRow(new Object[]{studentName, course});
+
+                updateStudentComboBox(getStudentComboBox(coursePanel));
+
             }
         });
+
         inputPanel.add(new JLabel("Student:"));
         inputPanel.add(studentComboBox);
         inputPanel.add(new JLabel("Course:"));
@@ -172,7 +188,30 @@ public class StudentManagementSystem extends JFrame {
         return panel;
     }
 
-    private JPanel createGradePanel() {
+    private JComboBox<String> getStudentComboBox(JPanel coursePanel) {
+        for (Component component : coursePanel.getComponents()) {
+            if (component instanceof JPanel) {
+                JPanel inputPanel = (JPanel) component;
+                for (Component inputComponent : inputPanel.getComponents()) {
+                    if (inputComponent instanceof JComboBox) {
+                        return (JComboBox<String>) inputComponent;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private void updateStudentComboBox(JComboBox<String> studentComboBox) {
+        if (studentComboBox != null) {
+            studentComboBox.removeAllItems();
+            for (Student student : students) {
+                studentComboBox.addItem(student.getName());
+            }
+        }
+    }
+
+    private JPanel createGradePanel(){
         JPanel panel = new JPanel(new BorderLayout());
 
         // Create the table and model
@@ -186,7 +225,12 @@ public class StudentManagementSystem extends JFrame {
         // Create the input fields
         JPanel inputPanel = new JPanel(new GridLayout(4, 2));
         JComboBox<String> studentComboBox = new JComboBox<>();
+        updateStudentComboBox(studentComboBox);
         JComboBox<String> courseComboBox = new JComboBox<>();
+        courseComboBox.addItem("Introduction to Computer Science");
+        courseComboBox.addItem("Data Structures and Algorithms");
+        courseComboBox.addItem("Operating Systems");
+        courseComboBox.addItem("Computer Networks");
         JTextField gradeField = new JTextField();
         JButton assignButton = new JButton("Assign Grade");
         assignButton.addActionListener(new ActionListener() {
@@ -211,6 +255,7 @@ public class StudentManagementSystem extends JFrame {
 
         return panel;
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

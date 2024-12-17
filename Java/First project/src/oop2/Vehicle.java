@@ -1,2 +1,11 @@
-package oop2;public class Vehicle {
+package oop2;
+
+// Vehicle.java
+public interface Vehicle {
+    String getMake();
+
+    String getModel();
+
+    int getYearOfManufacture();
 }
+

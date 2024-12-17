@@ -5,8 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 
-class main {
-
+class Unit1_Assignment {
 
 
     public static void main(String[] args) {
@@ -21,10 +20,9 @@ class main {
             int CharacterCount=userInput.length();
 
             int WordCount = userInput.split(" ").length;
-            main global= new main();
+            Unit1_Assignment global= new Unit1_Assignment();
+
             char MostCommonCharacter= global.getMostCommonCharacter(userInput.trim());
-
-
             // This variable holds the numbers of unique words from the user input
             int UniqueWords = global.getUniqueWordsCount(userInput.split(" "));
 

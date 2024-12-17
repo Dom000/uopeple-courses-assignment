@@ -1,2 +1,9 @@
-package oop2;public interface MotorVehicle {
+package oop2;
+
+// MotorVehicle.java
+public interface MotorVehicle {
+    void setNumberOfWheels(int wheels);
+    int getNumberOfWheels();
+    void setMotorcycleType(String type);
+    String getMotorcycleType();
 }

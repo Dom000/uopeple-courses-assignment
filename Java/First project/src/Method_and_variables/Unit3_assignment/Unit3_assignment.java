@@ -5,7 +5,7 @@ public class Unit3_assignment {
         public static void main(String[] args) {
             Scanner scanner = new Scanner(System.in);
             while (true) {
-                System.out.println("Student Record Management System");
+                System.out.println("Student Record Manager");
                 System.out.println("1. Add Student");
                 System.out.println("2. Update Student");
                 System.out.println("3. View Student");
@@ -35,7 +35,7 @@ public class Unit3_assignment {
                         String newName = scanner.nextLine();
                         System.out.print("Enter new age: ");
                         int newAge = scanner.nextInt();
-                        scanner.nextLine();
+                        scanner.nextLine();  
                         System.out.print("Enter new grade: ");
                         String newGrade = scanner.nextLine();
                         StudentManager.updateStudent(updateId, newName, newAge, newGrade);
